@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 400" width="600" height="400">
+  <rect width="600" height="400" fill="#dbf6ff"/>
+  <g opacity=".5" stroke="#00bee8" stroke-width="2" fill="none">
+    <circle cx="500" cy="80" r="6"/><circle cx="560" cy="140" r="6"/><circle cx="500" cy="200" r="6"/>
+    <circle cx="560" cy="260" r="6"/><circle cx="500" cy="320" r="6"/>
+    <path d="M506 80 L554 140 M506 80 L554 260 M506 200 L554 140 M506 200 L554 260 M506 320 L554 260 M506 320 L554 140"/>
+    <circle cx="440" cy="140" r="6"/><circle cx="440" cy="260" r="6"/>
+    <path d="M446 140 L494 80 M446 140 L494 200 M446 260 L494 200 M446 260 L494 320 M446 140 L494 320 M446 260 L494 80"/>
+  </g>
+  <g transform="translate(60 38)">
+    <rect width="324" height="324" fill="#fff" stroke="#00134d" stroke-width="4"/>
+    <!-- highlighted cells -->
+    <rect x="108" y="144" width="36" height="36" fill="#fef603"/>
+    <rect x="216" y="36" width="36" height="36" fill="#81e9ff"/>
+    <rect x="36" y="252" width="36" height="36" fill="#81e9ff"/>
+    <g stroke="#9fb4de" stroke-width="1">
+      <path d="M36 0V324M72 0V324M144 0V324M180 0V324M252 0V324M288 0V324"/>
+      <path d="M0 36H324M0 72H324M0 144H324M0 180H324M0 252H324M0 288H324"/>
+    </g>
+    <g stroke="#00134d" stroke-width="3">
+      <path d="M108 0V324M216 0V324M0 108H324M0 216H324"/>
+    </g>
+    <g font-family="Noto Sans JP, Hiragino Sans, sans-serif" font-size="22" font-weight="700" fill="#00134d" text-anchor="middle">
+      <text x="18" y="26">5</text><text x="54" y="26">3</text><text x="162" y="26">7</text>
+      <text x="18" y="62">6</text><text x="126" y="62">1</text><text x="162" y="62">9</text><text x="198" y="62">5</text>
+      <text x="54" y="98">9</text><text x="90" y="98">8</text><text x="270" y="98">6</text>
+      <text x="18" y="134">8</text><text x="162" y="134">6</text><text x="306" y="134">3</text>
+      <text x="18" y="170">4</text><text x="126" y="170">8</text><text x="198" y="170">3</text><text x="306" y="170">1</text>
+      <text x="18" y="206">7</text><text x="162" y="206">2</text><text x="306" y="206">6</text>
+      <text x="54" y="242">6</text><text x="234" y="242">2</text><text x="270" y="242">8</text>
+      <text x="126" y="278">4</text><text x="162" y="278">1</text><text x="198" y="278">9</text><text x="306" y="278">5</text>
+      <text x="162" y="314">8</text><text x="270" y="314">7</text><text x="306" y="314">9</text>
+    </g>
+    <g font-family="Noto Sans JP, Hiragino Sans, sans-serif" font-size="22" font-weight="700" fill="#0072ff" text-anchor="middle">
+      <text x="234" y="62">?</text><text x="54" y="278">?</text>
+    </g>
+  </g>
+</svg>

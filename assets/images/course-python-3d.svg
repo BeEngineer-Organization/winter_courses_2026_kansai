@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 400" width="600" height="400">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#0a2a6b"/>
+      <stop offset="1" stop-color="#00134d"/>
+    </linearGradient>
+    <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M40 0H0V40" fill="none" stroke="#1d4fa8" stroke-width="1" opacity=".55"/>
+    </pattern>
+  </defs>
+  <rect width="600" height="400" fill="url(#bg)"/>
+  <rect width="600" height="400" fill="url(#grid)"/>
+  <!-- floor -->
+  <path d="M60 300 L300 380 L540 300 L300 220 Z" fill="#0f3a8a" stroke="#00d0ff" stroke-width="2" opacity=".9"/>
+  <path d="M120 300 L300 360 M180 280 L360 340 M240 260 L420 320 M300 240 L480 300 M480 300 L300 360 M420 280 L240 340 M360 260 L180 320 M300 240 L120 300" stroke="#00d0ff" stroke-width="1" opacity=".35"/>
+  <!-- big cube -->
+  <g transform="translate(300 190)">
+    <path d="M0 -90 L78 -50 L0 -10 L-78 -50 Z" fill="#5da1ff"/>
+    <path d="M-78 -50 L0 -10 L0 80 L-78 40 Z" fill="#0072ff"/>
+    <path d="M78 -50 L0 -10 L0 80 L78 40 Z" fill="#044590"/>
+    <path d="M0 -90 L78 -50 L0 -10 L-78 -50 Z M0 -10 L0 80" fill="none" stroke="#81e9ff" stroke-width="2"/>
+  </g>
+  <!-- small cube -->
+  <g transform="translate(150 250)">
+    <path d="M0 -40 L34 -22 L0 -4 L-34 -22 Z" fill="#fef603"/>
+    <path d="M-34 -22 L0 -4 L0 36 L-34 18 Z" fill="#d9c800"/>
+    <path d="M34 -22 L0 -4 L0 36 L34 18 Z" fill="#b3a400"/>
+  </g>
+  <!-- sphere -->
+  <circle cx="455" cy="225" r="34" fill="#00bee8"/>
+  <ellipse cx="445" cy="212" rx="12" ry="8" fill="#dbf6ff" opacity=".8"/>
+  <ellipse cx="455" cy="268" rx="30" ry="7" fill="#00134d" opacity=".5"/>
+  <!-- axes -->
+  <g stroke-width="3" stroke-linecap="round">
+    <path d="M48 64 H118" stroke="#ff6b8a"/>
+    <path d="M48 64 V-6" transform="translate(0 0)" stroke="#5fdb7c"/>
+    <path d="M48 64 L8 90" stroke="#00d0ff"/>
+  </g>
+  <text x="128" y="70" font-family="Consolas, monospace" font-size="16" fill="#ff8aa3">x</text>
+  <text x="54" y="16" font-family="Consolas, monospace" font-size="16" fill="#7fe79a">y</text>
+  <text x="0" y="104" font-family="Consolas, monospace" font-size="16" fill="#81e9ff">z</text>
+</svg>
