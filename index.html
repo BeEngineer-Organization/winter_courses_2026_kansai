@@ -33,6 +33,10 @@
       rel="stylesheet"
     />
     <link rel="stylesheet" href="./assets/css/style.css" />
+    <script>
+      // 演出を使う環境だけ .js-motion を付ける（視差効果を減らす設定の人には付けない）
+      if (!matchMedia("(prefers-reduced-motion: reduce)").matches) document.documentElement.classList.add("js-motion");
+    </script>
     <!-- 画像の差し替え箇所は README.md の「画像」を参照 -->
   </head>
   <body id="top">
@@ -193,16 +197,24 @@
                 <h4 id="course-python-3d-title" class="course__title">Python で 3D ゲーム開発</h4>
                 <ul class="tags" aria-label="講座の特徴">
                   <li class="tag">1日</li>
+                  <li class="tag">ゲーム制作</li>
                 </ul>
               </div>
               <div class="course__body">
-                <figure class="course__img course__img--illust">
-                  <!-- 実際の制作画面が届いたら差し替え（README「画像」） -->
-                  <img src="./assets/images/course-python-3d.svg" alt="" width="600" height="400" loading="lazy" />
-                  <figcaption>イメージ</figcaption>
+                <figure class="course__img">
+                  <img
+                    src="./assets/images/course-python-3d.png"
+                    alt="Pythonで作る3Dゲームの画面。トンネルの道路を走る車と、その横を歩くキャラクター"
+                    width="1366"
+                    height="767"
+                    loading="lazy"
+                  />
                 </figure>
                 <div class="course__text">
-                  <p class="course__desc pending-text">講座の概要は準備中です。決まり次第お知らせします。</p>
+                  <p class="course__hook">いつものゲームの「裏側」をのぞいてみよう！</p>
+                  <p class="course__desc">
+                    普段遊んでいるゲームは、どんな仕組みや考え方で作られているのでしょうか。3Dモデルの作り方と扱い方、キャラクターを動かすロジック、当たり判定の仕組みなどを、Pythonで3Dゲームを作りながら学びます。
+                  </p>
                   <dl class="spec">
                     <div class="spec__row">
                       <dt>開催日</dt>
@@ -233,6 +245,7 @@
                 <h4 id="course-sudoku-title" class="course__title">機械学習で数独（ナンプレ）を攻略しよう</h4>
                 <ul class="tags" aria-label="講座の特徴">
                   <li class="tag">1日</li>
+                  <li class="tag">AI・機械学習</li>
                 </ul>
               </div>
               <div class="course__body">
@@ -242,7 +255,10 @@
                   <figcaption>イメージ</figcaption>
                 </figure>
                 <div class="course__text">
-                  <p class="course__desc pending-text">講座の概要は準備中です。決まり次第お知らせします。</p>
+                  <p class="course__hook">数独を解くAIを、自分の手で作ろう！</p>
+                  <p class="course__desc">
+                    誰もが一度は解いたことのある数独パズル。これを自動で解いてくれるAIを開発します。話題のAIや機械学習がどんな仕組みで動き、どうやって作られるのかを、手を動かしながら学べます。
+                  </p>
                   <dl class="spec">
                     <div class="spec__row">
                       <dt>開催日</dt>
@@ -268,34 +284,6 @@
               </div>
             </article>
           </div>
-
-          <!-- 合宿案内（冬イベントとは別企画） -->
-          <article class="camp" aria-labelledby="camp-title">
-            <figure class="camp__img">
-              <img src="./assets/images/camp.svg" alt="" width="600" height="400" loading="lazy" />
-            </figure>
-            <div class="camp__body">
-              <p class="camp__kicker">冬イベントとは別の企画です</p>
-              <h3 id="camp-title" class="camp__title">BeEngineer 2026 <span class="nowrap">冬合宿のご案内</span></h3>
-              <p>
-                冬イベントとあわせて、合宿のご案内もご覧いただけます。参加条件・日程・申込状況は合宿ページをご確認ください。
-              </p>
-              <p class="camp__note">合宿には、合宿ページに記載の参加条件が適用されます。</p>
-              <a
-                class="btn btn-camp"
-                href="https://beengineer-organization.github.io/been_camp_2026_winter_LP/"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                冬合宿の詳細を見る
-                <svg class="icon" viewBox="0 0 24 24" aria-hidden="true">
-                  <path d="M14 5h5v5M19 5l-9 9" /><path d="M19 13v5a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1h5" />
-                </svg>
-                <span class="u-hidden">（新しいタブで開きます）</span>
-              </a>
-              <p class="camp__tab">新しいタブで開きます</p>
-            </div>
-          </article>
         </div>
       </section>
 
@@ -305,7 +293,7 @@
           <header class="section-head">
             <p class="section-head__en" aria-hidden="true">PRICE</p>
             <h2 id="pricing-title">料金</h2>
-            <p class="section-head__lead">表示している金額はすべて税込です。合宿の費用は含みません。</p>
+            <p class="section-head__lead">表示している金額はすべて税込です。</p>
           </header>
 
           <div class="price-wrap">
@@ -374,11 +362,11 @@
               <svg class="filter__check" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12l5 5 9-10" /></svg>
               関西2校舎すべて
             </button>
-            <button type="button" class="filter filter--kyodai" data-campus-filter="kyodai" aria-pressed="false">
+            <button type="button" class="filter" data-campus-filter="kyodai" aria-pressed="false">
               <svg class="filter__check" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12l5 5 9-10" /></svg>
               京大本校
             </button>
-            <button type="button" class="filter filter--umeda" data-campus-filter="umeda" aria-pressed="false">
+            <button type="button" class="filter" data-campus-filter="umeda" aria-pressed="false">
               <svg class="filter__check" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12l5 5 9-10" /></svg>
               梅田校
             </button>
@@ -527,5 +515,6 @@
     </div>
 
     <script src="./assets/js/main.js"></script>
+    <script src="./assets/js/motion.js"></script>
   </body>
 </html>
