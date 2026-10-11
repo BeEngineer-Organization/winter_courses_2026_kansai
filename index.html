@@ -34,6 +34,8 @@
     />
     <link rel="stylesheet" href="./assets/css/style.css" />
     <script>
+      // JSが動く環境の目印（スマホ下部の固定CTAを最初は隠すのに使う）
+      document.documentElement.classList.add("js");
       // 演出を使う環境だけ .js-motion を付ける（視差効果を減らす設定の人には付けない）
       if (!matchMedia("(prefers-reduced-motion: reduce)").matches) document.documentElement.classList.add("js-motion");
     </script>
@@ -94,7 +96,7 @@
             </h1>
             <p class="hero__lead">この冬、いつもの学びを<br class="sp-only" />新しい作品へ。</p>
             <p class="hero__text">
-              京大本校・梅田校で開催する、BeEngineerの冬の講習会。<br class="pc-only" />教室で身につけた力で、ゲームやAIの制作に挑戦します。
+              京大本校ではリズムゲーム、梅田校では3DゲームとAIの開発に挑戦。<br class="pc-only" />ゲームやAIが動く仕組みを、自分の手で作りながら学びます。
             </p>
 
             <dl class="hero__date">

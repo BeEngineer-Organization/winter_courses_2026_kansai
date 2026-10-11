@@ -151,18 +151,29 @@
     });
   });
 
-  // スマートフォン下部の固定CTA：FVの申込ボタンや末尾の申込欄が見えている間は隠し、同じボタンが二重に出ないようにする
-  const stickyTargets = [document.querySelector(".hero__actions"), ...document.querySelectorAll(".apply-band")].filter(Boolean);
-  if (sticky && stickyTargets.length && "IntersectionObserver" in window) {
-    const onScreen = new Set();
+  // スマートフォン下部の固定CTA
+  // FVの申込ボタンを上へ通り過ぎてから出す（ページを開いた直後にFVの文章を隠さないため）。
+  // 料金・スケジュールの申込欄が見えている間は、同じボタンが二重にならないよう隠す。
+  const heroActions = document.querySelector(".hero__actions");
+  const applyBands = [...document.querySelectorAll(".apply-band")];
+  if (sticky && heroActions && "IntersectionObserver" in window) {
+    let heroPassed = false;
+    const bandsOnScreen = new Set();
     const observer = new IntersectionObserver((entries) => {
       entries.forEach((entry) => {
-        if (entry.isIntersecting) onScreen.add(entry.target);
-        else onScreen.delete(entry.target);
+        if (entry.target === heroActions) {
+          heroPassed = !entry.isIntersecting && entry.boundingClientRect.top < 0;
+        } else if (entry.isIntersecting) {
+          bandsOnScreen.add(entry.target);
+        } else {
+          bandsOnScreen.delete(entry.target);
+        }
       });
-      sticky.classList.toggle("is-hidden", onScreen.size > 0);
+      sticky.classList.toggle("is-visible", heroPassed && bandsOnScreen.size === 0);
     });
-    stickyTargets.forEach((target) => observer.observe(target));
+    [heroActions, ...applyBands].forEach((target) => observer.observe(target));
+  } else if (sticky) {
+    sticky.classList.add("is-visible");
   }
 
   // スマートフォン：講座カードは「講座名・写真・詳細を見る」だけにし、詳細はモーダルで開く
