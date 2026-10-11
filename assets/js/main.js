@@ -165,6 +165,69 @@
     stickyTargets.forEach((target) => observer.observe(target));
   }
 
+  // スマートフォン：講座カードは「講座名・写真・詳細を見る」だけにし、詳細はモーダルで開く
+  const courses = document.querySelectorAll(".course");
+  if (courses.length && typeof HTMLDialogElement === "function") {
+    const spQuery = matchMedia("(max-width: 719px)");
+    const modal = document.createElement("dialog");
+    modal.className = "course-modal";
+    modal.setAttribute("aria-labelledby", "course-modal-title");
+    modal.innerHTML = `
+      <div class="course-modal__head">
+        <h2 id="course-modal-title" class="course-modal__title" tabindex="-1" autofocus></h2>
+        <button type="button" class="course-modal__close" aria-label="閉じる" data-modal-close>
+          <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18" /></svg>
+        </button>
+      </div>
+      <div class="course-modal__body"></div>
+      <button type="button" class="btn btn-sub btn--sm course-modal__back" data-modal-close>閉じる</button>`;
+    document.body.append(modal);
+    const modalTitle = modal.querySelector(".course-modal__title");
+    const modalBody = modal.querySelector(".course-modal__body");
+
+    const openCourse = (course) => {
+      modalTitle.textContent = course.querySelector(".course__title").textContent;
+      modalBody.replaceChildren(
+        ...[".tags", ".course__img", ".course__text"]
+          .map((selector) => course.querySelector(selector))
+          .filter(Boolean)
+          .map((el) => {
+            const copy = el.cloneNode(true);
+            copy.querySelectorAll("[id]").forEach((node) => node.removeAttribute("id"));
+            return copy;
+          })
+      );
+      modal.showModal();
+      modal.scrollTop = 0;
+      document.documentElement.classList.add("is-modal-open");
+    };
+
+    courses.forEach((course) => {
+      const name = course.querySelector(".course__title").textContent;
+      const more = document.createElement("button");
+      more.type = "button";
+      more.className = "btn btn-sub btn--sm course__more";
+      more.setAttribute("aria-haspopup", "dialog");
+      more.setAttribute("aria-label", `${name}の詳細を見る`);
+      more.innerHTML = '詳細を見る<svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6l6 6-6 6" /></svg>';
+      course.append(more);
+      // カードのどこをタップしても開く（ボタンのクリックもここに伝わる）
+      course.addEventListener("click", () => {
+        if (spQuery.matches) openCourse(course);
+      });
+    });
+
+    modal.addEventListener("click", (event) => {
+      // 背景（モーダルの外側）または閉じるボタンで閉じる
+      if (event.target === modal || event.target.closest("[data-modal-close]")) modal.close();
+    });
+    modal.addEventListener("close", () => document.documentElement.classList.remove("is-modal-open"));
+    spQuery.addEventListener("change", () => {
+      if (!spQuery.matches && modal.open) modal.close();
+    });
+    document.documentElement.classList.add("has-course-modal");
+  }
+
   sessions().forEach(syncSession);
   applyFilter("all");
   onScroll();

@@ -1,5 +1,5 @@
 /* =========================================================
-   演出（スクロールで現れる・数字のカウントアップ・雪・進捗バーなど）
+   演出（スクロールで現れる・雪・進捗バーなど）
    - <head> の小さなスクリプトが html に .js-motion を付けたときだけ動く
      （OSで「視差効果を減らす」を選んでいる人には付かない）
    - 隠す処理はこのファイルが行うので、読み込みに失敗しても内容は全部見える
@@ -35,9 +35,8 @@
   /* ---------- スクロールで現れる要素の登録 ---------- */
   // [セレクター, 動きの種類, 兄弟の中で順番に遅らせるか]
   const groups = [
-    [".section-head > *", "up", true],
-    [".campus-label", "left", false],
-    [".course", "up", false],
+    [".section:not(#events) .section-head > *", "up", true],
+    [".course", "fade", false], // イベント紹介はカードのフェードインだけ
     [".price-wrap", "up", false],
     [".price-table tbody tr", "right", true],
     [".apply-band", "zoom", false],
@@ -56,40 +55,12 @@
     });
   });
 
-  // 講座カード内の一覧は1行ずつ流れて出す
-  document.querySelectorAll(".course .spec__row").forEach((row) => {
-    row.style.setProperty("--j", [...row.parentElement.children].indexOf(row));
-  });
-
-  /* ---------- 数字のカウントアップ（料金） ---------- */
-  const countUp = (el) => {
-    if (el.dataset.counted) return;
-    const node = [...el.childNodes].find((n) => n.nodeType === 3 && /\d/.test(n.textContent));
-    if (!node) return;
-    const original = node.textContent;
-    const target = Number(original.replace(/[^\d]/g, ""));
-    if (!target) return;
-    el.dataset.counted = "true";
-    const suffix = original.replace(/[\d,]+/, "{n}");
-    const duration = 1000;
-    const start = performance.now();
-    const step = (now) => {
-      const t = Math.min(1, (now - start) / duration);
-      const eased = 1 - Math.pow(1 - t, 3);
-      node.textContent = suffix.replace("{n}", Math.round(target * eased).toLocaleString("ja-JP"));
-      if (t < 1) requestAnimationFrame(step);
-      else node.textContent = original;
-    };
-    requestAnimationFrame(step);
-  };
-
   const reveal = new IntersectionObserver(
     (entries) => {
       entries.forEach((entry) => {
         if (!entry.isIntersecting) return;
         const el = entry.target;
         el.classList.add("is-in");
-        el.querySelectorAll(".price, .spec__price").forEach((p) => setTimeout(() => countUp(p), 250));
         reveal.unobserve(el);
       });
     },
@@ -100,7 +71,6 @@
   // ページ内リンクで飛んだ先は、待たずにすぐ表示する
   const showNow = (el) => {
     el.classList.add("is-in");
-    el.querySelectorAll(".price, .spec__price").forEach(countUp);
     reveal.unobserve(el);
   };
   addEventListener("hashchange", () => {

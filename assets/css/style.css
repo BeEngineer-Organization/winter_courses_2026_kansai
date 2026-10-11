@@ -889,34 +889,139 @@ a.btn-sub:visited {
   font-weight: 700;
 }
 
-.course__links {
+/* ---------- 講座の詳細モーダル（スマートフォン） ----------
+   main.js が html に .has-course-modal を付けたときだけ、
+   カードを「講座名・写真・詳細を見る」に絞り、詳細はモーダルで開く。
+   JSが動かないときは、スマートフォンでもカードに全部表示される。 */
+.course__more {
+  display: none;
+}
+
+@media (max-width: 719px) {
+  .has-course-modal .course {
+    cursor: pointer;
+  }
+
+  .has-course-modal .course .tags,
+  .has-course-modal .course .course__text {
+    display: none;
+  }
+
+  .has-course-modal .course__body {
+    margin-top: 14px;
+  }
+
+  .has-course-modal .course__more {
+    display: flex;
+    width: 100%;
+    margin-top: 18px;
+  }
+}
+
+html.is-modal-open {
+  overflow: hidden;
+}
+
+.course-modal {
+  width: min(560px, calc(100% - 24px));
+  max-width: none;
+  max-height: calc(100dvh - 40px);
+  margin: auto;
+  padding: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  color: var(--navy);
+  background: var(--white);
+  border: 0;
+  border-radius: 10px;
+  box-shadow: 8px 8px 0 var(--navy);
+}
+
+.course-modal::backdrop {
+  background: rgba(0, 19, 77, 0.6);
+}
+
+.course-modal[open] {
+  animation: modal-in 0.35s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+@keyframes modal-in {
+  from {
+    opacity: 0;
+    transform: translateY(28px);
+  }
+}
+
+.course-modal__head {
+  position: sticky;
+  top: 0;
+  z-index: 1;
   display: flex;
-  flex-wrap: wrap;
-  gap: 4px 20px;
-  margin-top: 10px;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 16px 14px 12px 18px;
+  background: var(--white);
+  border-bottom: 1px solid var(--line);
 }
 
-.course__links a {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  min-height: 44px;
-  font-weight: 700;
-  text-decoration: none;
+.course-modal__title {
+  position: relative;
+  flex: 1;
+  padding-left: 14px;
+  font-size: 1.2rem;
+  font-weight: 900;
+  line-height: 1.45;
 }
 
-.course__links a::after {
+.course-modal__title:focus {
+  outline: none; /* 開いたときに見出しへフォーカスを移すため（読み上げは講座名から始まる） */
+}
+
+.course-modal__title::before {
   content: "";
-  width: 7px;
-  height: 7px;
-  border-right: 2px solid currentColor;
-  border-bottom: 2px solid currentColor;
-  transform: rotate(45deg);
+  position: absolute;
+  left: 0;
+  top: 0.15em;
+  bottom: 0.15em;
+  width: 6px;
+  background: var(--navy);
 }
 
-.course__links a:hover {
-  text-decoration: underline;
-  text-underline-offset: 3px;
+.course-modal__close {
+  display: grid;
+  flex: none;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  background: var(--white);
+  color: var(--navy);
+  border: 2px solid var(--navy);
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.course-modal__close .icon {
+  width: 20px;
+  height: 20px;
+}
+
+.course-modal__body {
+  padding: 16px 18px 8px;
+}
+
+.course-modal__body .tags {
+  margin-bottom: 14px;
+}
+
+.course-modal__body .course__img {
+  margin-bottom: 16px;
+}
+
+.course-modal__back {
+  display: flex;
+  width: calc(100% - 36px);
+  margin: 12px 18px 24px;
 }
 
 /* ---------- 料金 ---------- */
@@ -1845,6 +1950,11 @@ a.btn-sub:visited {
   transform: scale(0.92);
 }
 
+/* イベント紹介のカードは動かさず、透明度だけで現れる */
+.js-motion .rv[data-rv="fade"] {
+  transition-duration: 1s, 1s, 0.15s, 0.15s;
+}
+
 .js-motion .rv.is-in {
   opacity: 1;
   transform: none;
@@ -1858,47 +1968,6 @@ a.btn-sub:visited {
 }
 
 .js-motion .section-head__en.rv.is-in::before {
-  transform: none;
-}
-
-/* 講座カード：写真が左から開き、本文と一覧が順に出る */
-.course__img {
-  overflow: hidden;
-  border-radius: 4px;
-}
-
-.js-motion .course.rv .course__img img {
-  clip-path: inset(0 100% 0 0);
-  transform: scale(1.1);
-  transition:
-    clip-path 1s 0.2s cubic-bezier(0.7, 0, 0.2, 1),
-    transform 1.6s 0.2s cubic-bezier(0.2, 0.8, 0.2, 1);
-}
-
-.js-motion .course.rv.is-in .course__img img {
-  clip-path: inset(0 0 0 0);
-  transform: none;
-}
-
-.js-motion .course.rv :is(.course__hook, .course__desc) {
-  opacity: 0;
-  transform: translateY(14px);
-  transition: opacity 0.6s 0.45s ease, transform 0.6s 0.45s ease;
-}
-
-.js-motion .course.rv .course__desc {
-  transition-delay: 0.55s;
-}
-
-.js-motion .course.rv .spec__row {
-  opacity: 0;
-  transform: translateX(24px);
-  transition: opacity 0.5s ease, transform 0.5s ease;
-  transition-delay: calc(0.7s + var(--j, 0) * 100ms);
-}
-
-.js-motion .course.rv.is-in :is(.course__hook, .course__desc, .spec__row) {
-  opacity: 1;
   transform: none;
 }
 
