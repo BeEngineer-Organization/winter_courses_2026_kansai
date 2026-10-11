@@ -1,5 +1,5 @@
 /* =========================================================
-   BeEngineer 2026 冬イベント 関西版
+   BeEngineer 2026 冬の講習会 関西版
    2025年冬LPの配色（水色の地・濃紺の文字・青〜シアン・黄色CTA・
    校舎色）と、黄色ボタン＋濃紺のずらし影を引き継ぐ。
    スマートフォン基準で書き、720px / 960px で広げる。
@@ -709,7 +709,7 @@ a.btn-sub:visited {
   color: var(--text-sub);
 }
 
-/* ---------- イベント紹介 ---------- */
+/* ---------- 講習会紹介 ---------- */
 
 .campus-group + .campus-group {
   margin-top: 48px;
@@ -1880,7 +1880,7 @@ html.is-modal-open {
   animation: m-up 0.7s 0.3s cubic-bezier(0.2, 0.8, 0.2, 1) backwards;
 }
 
-/* 「冬イベント」の水色の帯が左から伸びる */
+/* 「冬の講習会」の水色の帯が左から伸びる */
 .js-motion .hero__title-main .marker {
   animation: m-wipe 0.75s 0.5s cubic-bezier(0.7, 0, 0.2, 1) backwards;
 }
@@ -1950,7 +1950,7 @@ html.is-modal-open {
   transform: scale(0.92);
 }
 
-/* イベント紹介のカードは動かさず、透明度だけで現れる */
+/* 講習会紹介のカードは動かさず、透明度だけで現れる */
 .js-motion .rv[data-rv="fade"] {
   transition-duration: 1s, 1s, 0.15s, 0.15s;
 }

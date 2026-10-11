@@ -36,7 +36,7 @@
   // [セレクター, 動きの種類, 兄弟の中で順番に遅らせるか]
   const groups = [
     [".section:not(#events) .section-head > *", "up", true],
-    [".course", "fade", false], // イベント紹介はカードのフェードインだけ
+    [".course", "fade", false], // 講習会紹介はカードのフェードインだけ
     [".price-wrap", "up", false],
     [".price-table tbody tr", "right", true],
     [".apply-band", "zoom", false],
