@@ -34,10 +34,31 @@
     />
     <link rel="stylesheet" href="./assets/css/style.css" />
     <script>
-      // JSが動く環境の目印（スマホ下部の固定CTAを最初は隠すのに使う）
-      document.documentElement.classList.add("js");
-      // 演出を使う環境だけ .js-motion を付ける（視差効果を減らす設定の人には付けない）
-      if (!matchMedia("(prefers-reduced-motion: reduce)").matches) document.documentElement.classList.add("js-motion");
+      (function () {
+        var root = document.documentElement;
+        // JSが動く環境の目印（スマホ下部の固定CTAを最初は隠すのに使う）
+        root.classList.add("js");
+        // 演出を使う環境だけ .js-motion を付ける（視差効果を減らす設定の人には付けない）
+        if (!matchMedia("(prefers-reduced-motion: reduce)").matches) root.classList.add("js-motion");
+
+        // ハロウィン仕様：?theme=halloween が付いているときだけ。詳しくは README「ハロウィン仕様」。
+        if (new URLSearchParams(location.search).get("theme") !== "halloween") return;
+        root.classList.add("theme-halloween");
+        // 黒い画面は、通常のページが一瞬見えないよう読み込み前から出しておく（再読み込みのたびに毎回出す）
+        if (root.classList.contains("js-motion")) root.classList.add("hw-cover", "hw-hold");
+        var css = document.createElement("link");
+        css.rel = "stylesheet";
+        css.href = "./assets/css/halloween.css";
+        css.id = "hw-css";
+        document.head.appendChild(css);
+        var js = document.createElement("script");
+        js.src = "./assets/js/halloween.js";
+        document.head.appendChild(js);
+        // 読み込みに失敗しても、黒い画面のまま止まらないようにする
+        setTimeout(function () {
+          if (!window.__hwStarted) root.classList.remove("hw-cover", "hw-hold");
+        }, 4000);
+      })();
     </script>
     <!-- 画像の差し替え箇所は README.md の「画像」を参照 -->
   </head>

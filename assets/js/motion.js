@@ -100,8 +100,10 @@
       vy: 0.35 + Math.random() * 0.75,
       sway: Math.random() * Math.PI * 2,
       swaySpeed: 0.005 + Math.random() * 0.012,
-      // 白い雪と、明るい地でも見える水色の雪をまぜる
-      color: Math.random() < 0.55 ? "rgba(255,255,255,0.9)" : "rgba(93,161,255,0.45)",
+      // 白い雪と、明るい地でも見える水色の雪をまぜる（ハロウィン仕様のときはオレンジと紫）
+      color: root.classList.contains("theme-halloween")
+        ? ["rgba(255,122,26,0.7)", "rgba(107,47,179,0.45)", "rgba(255,255,255,0.9)"][Math.floor(Math.random() * 3)]
+        : Math.random() < 0.55 ? "rgba(255,255,255,0.9)" : "rgba(93,161,255,0.45)",
     });
 
     const resize = () => {

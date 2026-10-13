@@ -1,0 +1,507 @@
+/* =========================================================
+   ハロウィン仕様（?theme=halloween ＋ 期間内のときだけ読み込まれる）
+   assets/js/halloween.js と対。季節が終わったらファイルごと消してよい。
+   ========================================================= */
+
+:root {
+  --hw-night: #07040f;
+  --hw-orange: #ff7a1a;
+  --hw-purple: #6b2fb3;
+  --hw-flame: #ffd23f;
+}
+
+html.hw-lock {
+  overflow: hidden;
+}
+
+/* ---------- 黒い画面 ---------- */
+.hw-intro {
+  position: fixed;
+  inset: 0;
+  z-index: 2147483646;
+}
+
+.hw-intro__stage {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  background: var(--hw-night);
+}
+
+.hw-intro__stage.is-peeling {
+  background: transparent;
+}
+
+.hw-cell {
+  position: absolute;
+}
+
+.hw-cell__bg {
+  position: absolute;
+  inset: 0;
+  background: var(--hw-night);
+}
+
+.hw-cell__bat {
+  position: absolute;
+  inset: 18%;
+  display: grid;
+  place-items: center;
+  fill: var(--hw-night);
+}
+
+.hw-cell__bat svg {
+  width: 100%;
+  overflow: visible;
+  animation: hw-flap 0.16s ease-in-out infinite alternate;
+}
+
+@keyframes hw-flap {
+  to {
+    transform: scaleY(0.35);
+  }
+}
+
+/* ---------- 目と口だけのカボチャのお化け ---------- */
+.hw-pumpkin {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  z-index: 1;
+  width: min(60vw, 280px);
+  transform: translate(-50%, -50%);
+}
+
+.hw-face {
+  display: block;
+  width: 100%;
+  overflow: visible;
+  fill: #fff;
+  filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.55));
+  transform-origin: 50% 70%;
+  animation:
+    hw-appear 0.6s ease-out backwards,
+    hw-laugh 0.13s 0.6s ease-in-out infinite alternate;
+}
+
+/* 口をパクパク、目を細めて、顔を揺らして笑う */
+.hw-pumpkin__mouth {
+  transform-box: fill-box;
+  transform-origin: 50% 0%;
+  animation: hw-mouth 0.13s 0.6s ease-in-out infinite alternate;
+}
+
+.hw-pumpkin__eyes path {
+  transform-box: fill-box;
+  transform-origin: 50% 60%;
+  animation: hw-squint 0.26s 0.6s ease-in-out infinite alternate;
+}
+
+.hw-pumpkin.is-out {
+  animation: hw-out 0.4s ease-in forwards;
+}
+
+/* 暗闇で目と口がふっと灯る */
+@keyframes hw-appear {
+  0% {
+    opacity: 0;
+    transform: scale(0.85);
+  }
+
+  40% {
+    opacity: 0.4;
+  }
+
+  55% {
+    opacity: 0.1;
+  }
+}
+
+@keyframes hw-laugh {
+  from {
+    transform: rotate(-4deg) translateY(0);
+  }
+
+  to {
+    transform: rotate(4deg) translateY(-6px);
+  }
+}
+
+@keyframes hw-mouth {
+  from {
+    transform: scaleY(0.55);
+  }
+
+  to {
+    transform: scaleY(1.12);
+  }
+}
+
+@keyframes hw-squint {
+  to {
+    transform: scaleY(0.55);
+  }
+}
+
+@keyframes hw-out {
+  to {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(1.35);
+  }
+}
+
+/* ---------- 演出のあとに残す飾り ---------- */
+
+/* ヘッダー上端の線をハロウィン色に */
+.theme-halloween .site-header::before {
+  background: linear-gradient(90deg, var(--hw-purple), var(--hw-orange) 60%, var(--hw-flame) 60%);
+}
+
+/* FVを飛ぶコウモリ */
+.hw-deco {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.hw-deco__bat {
+  position: absolute;
+  width: 46px;
+  fill: #6b2fb3; /* 文字の後ろを通っても読めるよう、薄い紫にする */
+  opacity: 0.35;
+  animation: hw-drift 14s linear infinite;
+}
+
+.hw-deco__bat svg {
+  display: block;
+  animation: hw-flap 0.22s ease-in-out infinite alternate;
+}
+
+.hw-deco__bat--1 {
+  top: 6%;
+  animation-delay: -2s;
+}
+
+.hw-deco__bat--2 {
+  top: 22%;
+  width: 30px;
+  animation-duration: 18s;
+  animation-delay: -9s;
+}
+
+.hw-deco__bat--3 {
+  top: 48%;
+  width: 38px;
+  animation-duration: 16s;
+  animation-delay: -5s;
+}
+
+.hw-deco__bat--4 {
+  top: 70%;
+  width: 26px;
+  animation-duration: 20s;
+  animation-delay: -13s;
+}
+
+.hw-deco__bat--5 {
+  top: 12%;
+  width: 34px;
+  animation-duration: 22s;
+  animation-delay: -17s;
+}
+
+@keyframes hw-drift {
+  0% {
+    transform: translate(-10vw, 0);
+  }
+
+  25% {
+    transform: translate(20vw, -24px);
+  }
+
+  50% {
+    transform: translate(50vw, 10px);
+  }
+
+  75% {
+    transform: translate(80vw, -18px);
+  }
+
+  100% {
+    transform: translate(110vw, 0);
+  }
+}
+
+/* 写真の角からのぞくカボチャ */
+.hw-peek {
+  position: absolute;
+  right: -6px;
+  top: 4px;
+  z-index: 2;
+  width: clamp(64px, 16vw, 96px);
+  filter: drop-shadow(3px 4px 0 rgba(0, 19, 77, 0.35));
+  animation: hw-wobble 2.4s ease-in-out infinite;
+  transform-origin: 50% 90%;
+}
+
+.hw-peek .hw-pumpkin__svg {
+  display: block;
+  width: 100%;
+  overflow: visible;
+}
+
+.hw-peek .hw-pumpkin__eyes,
+.hw-peek .hw-pumpkin__nose,
+.hw-peek .hw-pumpkin__mouth {
+  filter: none;
+}
+
+@keyframes hw-wobble {
+  0%,
+  100% {
+    transform: rotate(-6deg);
+  }
+
+  50% {
+    transform: rotate(6deg) translateY(-3px);
+  }
+}
+
+@media (min-width: 960px) {
+  .hw-peek {
+    right: -18px;
+    top: 10px;
+  }
+}
+
+/* ---------- LP内の仕掛け ---------- */
+
+/* 画面の端からひょこっと出るカボチャ */
+.hw-pop {
+  position: fixed;
+  z-index: 45; /* スマホ下部の固定CTA（50）より下 */
+  width: clamp(72px, 18vw, 110px);
+  cursor: pointer;
+  filter: drop-shadow(0 6px 10px rgba(0, 19, 77, 0.25));
+  transform: translateX(120%);
+}
+
+.hw-pop .hw-pumpkin__svg {
+  display: block;
+  width: 100%;
+  overflow: visible;
+}
+
+.hw-pop--right {
+  right: 0;
+  bottom: calc(120px + env(safe-area-inset-bottom, 0px));
+  transform-origin: 100% 100%;
+}
+
+.hw-pop--left {
+  left: 0;
+  top: 38%;
+  transform-origin: 0% 100%;
+}
+
+/* 斜めに横切るコウモリの群れ（クリックの邪魔はしない） */
+.hw-flock {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.hw-flock__bat {
+  position: absolute;
+  left: 0;
+  top: 0;
+  fill: #2a1240;
+  opacity: 0.85;
+}
+
+.hw-flock__bat svg {
+  display: block;
+  width: 100%;
+  overflow: visible;
+  animation: hw-flap 0.14s ease-in-out infinite alternate;
+}
+
+/* ---------- クモの巣 ---------- */
+.hw-web {
+  position: absolute;
+  top: 0;
+  z-index: -1;
+  width: clamp(90px, 16vw, 170px);
+  pointer-events: none;
+}
+
+.hw-web svg {
+  display: block;
+  width: 100%;
+  overflow: visible;
+  fill: none;
+  stroke: rgba(0, 19, 77, 0.28);
+  stroke-width: 1;
+}
+
+.hw-web--left {
+  left: 0;
+}
+
+.hw-web--right {
+  right: 0;
+  transform: scaleX(-1);
+}
+
+.hw-web--small {
+  z-index: 0;
+  width: clamp(64px, 10vw, 110px);
+}
+
+/* FV右上の巣からぶら下がって揺れるクモ */
+.hw-hang {
+  position: absolute;
+  left: 34%;
+  top: 30%;
+  display: grid;
+  justify-items: center;
+  transform-origin: 50% 0;
+  animation: hw-swing 3.2s ease-in-out infinite;
+}
+
+.hw-hang__thread {
+  width: 1px;
+  height: clamp(40px, 7vw, 70px);
+  background: rgba(0, 19, 77, 0.45);
+}
+
+.hw-hang svg {
+  width: clamp(20px, 3vw, 28px);
+  margin-top: -3px;
+  stroke: none;
+}
+
+@keyframes hw-swing {
+  0%,
+  100% {
+    transform: rotate(6deg);
+  }
+
+  50% {
+    transform: rotate(-6deg);
+  }
+}
+
+/* ---------- 時々降りてくるクモ ---------- */
+.hw-drop {
+  position: fixed;
+  z-index: 39; /* ヘッダー（40）の下から出てくる */
+  width: 0;
+  transform-origin: 0 0;
+  pointer-events: none;
+}
+
+.hw-drop__thread {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 1px;
+  background: rgba(0, 19, 77, 0.5);
+  transform-origin: 50% 0;
+}
+
+.hw-drop__spider {
+  position: absolute;
+  left: -22px;
+  width: 44px;
+  padding: 2px 4px 6px;
+  cursor: pointer;
+  pointer-events: auto;
+}
+
+.hw-drop__spider svg {
+  display: block;
+  width: 100%;
+  transform-origin: 50% 70%;
+}
+
+.hw-drop__bubble {
+  position: absolute;
+  left: 50%;
+  bottom: 100%;
+  padding: 4px 10px;
+  background: #fff;
+  color: #00134d;
+  border: 2px solid #00134d;
+  border-radius: 999px;
+  box-shadow: 3px 3px 0 #00134d;
+  font-size: 0.82rem;
+  font-weight: 900;
+  white-space: nowrap;
+  transform: translateX(-50%);
+  animation: hw-bubble 1.3s ease-out forwards;
+}
+
+@keyframes hw-bubble {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, 8px) scale(0.6);
+  }
+
+  20% {
+    opacity: 1;
+    transform: translate(-50%, 0) scale(1.08);
+  }
+
+  30% {
+    transform: translate(-50%, 0) scale(1);
+  }
+
+  80% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -14px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hw-deco__bat,
+  .hw-deco__bat svg,
+  .hw-peek {
+    animation: none !important;
+  }
+
+  .hw-pop,
+  .hw-flock,
+  .hw-drop {
+    display: none;
+  }
+
+  .hw-hang {
+    animation: none !important;
+  }
+
+  .hw-deco__bat--1 {
+    left: 8%;
+  }
+
+  .hw-deco__bat--2 {
+    left: 40%;
+  }
+
+  .hw-deco__bat--3 {
+    left: 84%;
+  }
+
+  .hw-deco__bat--4,
+  .hw-deco__bat--5 {
+    display: none;
+  }
+}

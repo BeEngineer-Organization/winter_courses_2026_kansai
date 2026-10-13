@@ -2042,6 +2042,24 @@ html.is-modal-open {
   animation: m-sweep 1.3s 0.6s ease-out;
 }
 
+/* ---------- ハロウィン仕様の幕（?theme=halloween のときだけ <head> が付ける） ----------
+   演出本体は assets/css/halloween.css / assets/js/halloween.js。
+   ここは読み込み前から画面を黒く覆い、FVの登場演出を止めておく分だけ。 */
+html.hw-cover::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 2147483647;
+  background: #07040f;
+}
+
+html.hw-hold .hero,
+html.hw-hold .hero *,
+html.hw-hold .hero *::before,
+html.hw-hold .hero *::after {
+  animation-play-state: paused !important;
+}
+
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
