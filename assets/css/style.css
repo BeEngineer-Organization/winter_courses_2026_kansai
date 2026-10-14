@@ -1029,8 +1029,10 @@ html.is-modal-open {
 
 /* ---------- 料金 ---------- */
 
+/* 行が右から入る演出の間に横スクロールバーが出ないよう、はみ出しは切る
+   （表は狭い画面で縦積みになるので、横にはみ出すことはない） */
 .price-wrap {
-  overflow-x: auto;
+  overflow: hidden;
   background: var(--white);
   border: 2px solid var(--navy);
   box-shadow: 8px 8px 0 var(--navy);
@@ -1127,7 +1129,7 @@ html.is-modal-open {
   line-height: 1.5;
 }
 
-/* 2講座セットの講座名：入るときは1行、入らないときは「＋」の前で改行する */
+/* 2講座セットの講座名：入るときは1行、入らないときは「＋」の後ろで改行する */
 .price-table__part {
   display: inline-block;
 }
@@ -1572,6 +1574,11 @@ html.is-modal-open {
   .apply-band .btn,
   .session .btn {
     width: 100%;
+  }
+
+  /* 料金表：SPではサムネイルを出さず、講座名と金額だけにする */
+  .price-thumb {
+    display: none;
   }
 
   /* 校舎の絞り込み：「すべて」を1行目、2校舎を2行目に半分ずつ並べる */
