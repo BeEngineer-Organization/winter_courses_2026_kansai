@@ -1456,6 +1456,16 @@ html.is-modal-open {
   .session .btn {
     width: 100%;
   }
+
+  /* 校舎の絞り込み：「すべて」を1行目、2校舎を2行目に半分ずつ並べる */
+  .filters {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .filter[data-campus-filter="all"] {
+    grid-column: 1 / -1;
+  }
 }
 
 /* 料金表：狭い画面では講座名を1行目、2つの料金を2行目に並べる */
