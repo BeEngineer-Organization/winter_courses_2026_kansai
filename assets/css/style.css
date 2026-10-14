@@ -153,10 +153,6 @@ a {
   margin-inline: auto;
 }
 
-.wrap--narrow {
-  width: min(920px, calc(100% - 32px));
-}
-
 [id] {
   scroll-margin-top: calc(var(--header-h) + 16px);
 }
@@ -1033,12 +1029,6 @@ html.is-modal-open {
 
 /* ---------- 料金 ---------- */
 
-/* 講座名と金額が離れすぎないよう、表とその下の申込欄は幅を絞る。左端は見出しにそろえる */
-.price-wrap,
-#pricing .apply-band {
-  max-width: 680px;
-}
-
 .price-wrap {
   overflow-x: auto;
   background: var(--white);
@@ -1083,12 +1073,63 @@ html.is-modal-open {
   text-align: left;
 }
 
+/* 講座名の左に小さなサムネイルを置く */
+.price-item {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.price-item__body {
+  min-width: 0;
+}
+
+.price-thumb {
+  position: relative;
+  flex: 0 0 88px;
+  aspect-ratio: 3 / 2;
+  overflow: hidden;
+  border: 2px solid var(--navy);
+  border-radius: 4px;
+  background: var(--tint);
+}
+
+.price-thumb img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* 2講座セット：2枚のサムネイルを斜めの線で区切って1枚にまとめる */
+.price-thumb--split img:first-child {
+  clip-path: polygon(0 0, 62% 0, 38% 100%, 0 100%);
+}
+
+.price-thumb--split img:last-child {
+  clip-path: polygon(62% 0, 100% 0, 100% 100%, 38% 100%);
+}
+
+.price-thumb--split::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: var(--white);
+  clip-path: polygon(60.5% 0, 63.5% 0, 39.5% 100%, 36.5% 100%);
+}
+
 .price-table__name {
   display: block;
   margin-top: 4px;
   font-size: 0.95rem;
   font-weight: 700;
   line-height: 1.5;
+}
+
+/* 2講座セットの講座名：入るときは1行、入らないときは「＋」の前で改行する */
+.price-table__part {
+  display: inline-block;
 }
 
 .price-table__days {
@@ -1686,6 +1727,14 @@ html.is-modal-open {
     font-size: 1.05rem;
   }
 
+  .price-item {
+    gap: 20px;
+  }
+
+  .price-thumb {
+    flex-basis: 132px;
+  }
+
   .price {
     width: 9em;
     font-size: 1.35rem;
@@ -1767,6 +1816,12 @@ html.is-modal-open {
    960px〜：PC
    ========================================================= */
 @media (min-width: 960px) {
+  /* まとめて申込：19日の講座を左、20日の講座を右に並べる */
+  .session__when--bundle {
+    grid-template-columns: 1fr 1fr;
+    column-gap: 24px;
+  }
+
   .hero {
     padding: 40px 0 56px;
   }
