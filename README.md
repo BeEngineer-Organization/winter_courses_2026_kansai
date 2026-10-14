@@ -109,14 +109,14 @@ URLに `?theme=halloween` を付けて開いたときだけ出る演出です。
 | `course-rhythm.png`（566×377） | リズムの達人 | 2025年冬LPの `course_6.png`（同講座のゲーム画面）を流用 |
 | `course-python-3d.png`（1366×767） | Python で 3D ゲーム開発 | 実際のゲーム画面 |
 | `course-sudoku.svg` | 機械学習で数独を攻略しよう | 仮のイラスト（「イメージ」表記あり）。実際の制作画面が届いたら差し替え |
-| `ogp.png`（1200×630） | 共有用画像 | 未作成。2026年冬・関西版で作る。旧年度の画像は使わない |
+| `ogp.png`（1200×630） | 共有用画像 | 2026年冬・関西版を配置済み。`index.html` の head で `og:image` に設定 |
 | `logo_color.svg` / `favicon.svg` | ロゴ | 配置済み |
 
 **公開前に確認：** 流用した写真3点（生徒が写っているもの）は、2026年のLPに再掲載してよいか運営に確認してください。
 
 差し替えるときは、`img` の `width` / `height` を新しい画像の実寸にし（講座画像は切り抜かず元の縦横比で表示されます）、`alt` を写っている内容に合わせます。イラストを実画像に替えたら `figcaption`（イメージ）と `course__img--illust` クラスを消し、`alt` を書きます。FVの写真だけ `loading="eager"`、ほかは `loading="lazy"` のままにします。
 
-OGP を置くときは、`index.html` の head 内コメントを外し、公開 URL と画像 URL を入れます。
+OGP は `index.html` の head で、公開 URL（`https://beengineer-organization.github.io/winter_courses_2026_kansai/`）を基準に絶対 URL で指定しています。画像を差し替えるときは同じファイル名（1200×630）で上書きし、公開 URL が変わったら canonical・`og:url`・`og:image` の3か所を直します。
 
 ## 講座を追加・差し替える
 
