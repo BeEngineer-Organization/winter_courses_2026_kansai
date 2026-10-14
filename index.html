@@ -77,7 +77,7 @@
         <nav class="nav" aria-label="ページ内">
           <a href="#events">講習会<span class="nav__long">紹介</span></a>
           <a href="#pricing">料金</a>
-          <a href="#schedule"><span class="nav__short">日程</span><span class="nav__long">スケジュール</span></a>
+          <a href="#schedule"><span class="nav__short">申込</span><span class="nav__long">お申し込み</span></a>
         </nav>
         <!-- 申込CTA（ヘッダー）。受付開始時は README「申込ボタンを有効にする」を参照 -->
         <button type="button" class="btn btn-cta btn--sm header-cta" disabled aria-describedby="apply-note">
@@ -318,8 +318,7 @@
               <thead>
                 <tr>
                   <th scope="col">講座</th>
-                  <th scope="col">通常料金</th>
-                  <th scope="col">複数申込<span class="th-sub">の場合</span></th>
+                  <th scope="col">受講料</th>
                 </tr>
               </thead>
               <tbody>
@@ -329,8 +328,19 @@
                     <span class="price-table__name">JavaScript でタイピングゲームを作ろう！</span>
                     <span class="price-table__days">2日間</span>
                   </th>
-                  <td class="price" data-label="通常料金">32,000<small>円</small></td>
-                  <td class="price price--pending" data-label="複数申込の場合">未定<span class="price__note">決まり次第掲載</span></td>
+                  <td class="price" data-label="受講料">32,000<small>円</small></td>
+                </tr>
+                <!-- 【仮】梅田校2講座セット（12,000円×2講座）。適用条件は運営に確認してから確定する -->
+                <tr id="price-umeda-bundle" class="price-table__bundle" data-course-id="course-python-3d course-sudoku">
+                  <th scope="row">
+                    <span class="chip chip--umeda chip--sm">梅田校</span>
+                    <span class="bundle-label">2講座セット</span>
+                    <span class="price-table__name">Python で 3D ゲーム開発<br />＋ 機械学習で数独（ナンプレ）を攻略しよう</span>
+                    <span class="price-table__days">2日間（12月19日・20日）</span>
+                  </th>
+                  <td class="price price--discount" data-label="受講料">
+                    24,000<small>円</small><span class="price__note">通常 32,000円</span>
+                  </td>
                 </tr>
                 <tr id="price-course-python-3d" data-course-id="course-python-3d">
                   <th scope="row">
@@ -338,8 +348,7 @@
                     <span class="price-table__name">Python で 3D ゲーム開発</span>
                     <span class="price-table__days">1日</span>
                   </th>
-                  <td class="price" data-label="通常料金">16,000<small>円</small></td>
-                  <td class="price price--discount" data-label="複数申込の場合">12,000<small>円</small></td>
+                  <td class="price" data-label="受講料">16,000<small>円</small></td>
                 </tr>
                 <tr id="price-course-sudoku" data-course-id="course-sudoku">
                   <th scope="row">
@@ -347,8 +356,7 @@
                     <span class="price-table__name">機械学習で数独（ナンプレ）を攻略しよう</span>
                     <span class="price-table__days">1日</span>
                   </th>
-                  <td class="price" data-label="通常料金">16,000<small>円</small></td>
-                  <td class="price price--discount" data-label="複数申込の場合">12,000<small>円</small></td>
+                  <td class="price" data-label="受講料">16,000<small>円</small></td>
                 </tr>
               </tbody>
             </table>
@@ -364,12 +372,12 @@
         </div>
       </section>
 
-      <!-- ========== スケジュール ========== -->
+      <!-- ========== お申し込み（スケジュール） ========== -->
       <section id="schedule" class="section" aria-labelledby="schedule-title">
         <div class="wrap wrap--narrow">
           <header class="section-head">
-            <p class="section-head__en" aria-hidden="true">SCHEDULE</p>
-            <h2 id="schedule-title">スケジュール</h2>
+            <p class="section-head__en" aria-hidden="true">ENTRY</p>
+            <h2 id="schedule-title">冬の講習会のお申し込み</h2>
             <p class="section-head__lead">開催枠を日付の順に掲載しています。時刻は日本時間です。</p>
           </header>
 
@@ -422,6 +430,58 @@
                   data-session-cta
                   disabled
                   aria-label="京大本校 JavaScript でタイピングゲームを作ろう！（12月19日・20日）の申込は準備中です"
+                >
+                  申込準備中
+                </button>
+              </div>
+            </article>
+
+            <!--
+              【仮】梅田校2講座のまとめて申込。
+              セット料金（24,000円）の適用条件・まとめて申込の受付方法は運営に確認してから確定する。
+            -->
+            <article
+              class="session session--bundle"
+              id="session-umeda-bundle"
+              data-session
+              data-campus="umeda"
+              data-status="preparing"
+              data-course-id="course-python-3d course-sudoku"
+              data-end="2026-12-20T18:30:00+09:00"
+              aria-labelledby="session-umeda-bundle-title"
+            >
+              <div class="session__dates" aria-hidden="true">
+                <span class="day"><span class="day__md">12/19</span><span class="day__wk">土</span></span>
+                <span class="day day--sun"><span class="day__md">12/20</span><span class="day__wk">日</span></span>
+                <span class="session__span">2講座セット</span>
+              </div>
+              <div class="session__main">
+                <div class="session__top">
+                  <span class="chip chip--umeda chip--sm">梅田校</span>
+                  <span class="bundle-label">まとめて申込</span>
+                  <span class="status status--preparing" data-status-label>準備中</span>
+                </div>
+                <h3 id="session-umeda-bundle-title" class="session__title">梅田校の2講座をまとめて受講</h3>
+                <ul class="session__when session__when--bundle">
+                  <li>
+                    <time datetime="2026-12-19">12月19日（土）</time><span>14:00〜18:30</span>
+                    <strong class="session__course">Python で 3D ゲーム開発</strong>
+                  </li>
+                  <li>
+                    <time datetime="2026-12-20">12月20日（日）</time><span>14:00〜18:30</span>
+                    <strong class="session__course">機械学習で数独（ナンプレ）を攻略しよう</strong>
+                  </li>
+                </ul>
+                <p class="bundle-price">
+                  受講料<s>32,000円</s><span class="bundle-price__arrow" aria-hidden="true">→</span><strong>24,000円</strong
+                  ><span class="bundle-price__note">（2講座セット）</span>
+                </p>
+                <button
+                  type="button"
+                  class="btn btn-cta btn--sm"
+                  data-session-cta
+                  disabled
+                  aria-label="梅田校 2講座まとめて申込（12月19日・20日）は準備中です"
                 >
                   申込準備中
                 </button>
@@ -502,14 +562,6 @@
             スケジュールは準備中です。開催枠が決まり次第、校舎・日時・受付状態を掲載します。
           </p>
           <p class="schedule-message" data-schedule-empty aria-live="polite" hidden>現在公開中の日程はありません。</p>
-
-          <div class="apply-band apply-band--strong">
-            <p class="apply-band__text">
-              <strong>冬の講習会のお申し込み</strong>
-              <span>受付中の枠から申し込めるようになります。現在は準備中です。</span>
-            </p>
-            <button type="button" class="btn btn-cta" disabled aria-describedby="apply-note">申込準備中</button>
-          </div>
         </div>
       </section>
     </main>

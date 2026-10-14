@@ -1033,6 +1033,12 @@ html.is-modal-open {
 
 /* ---------- 料金 ---------- */
 
+/* 講座名と金額が離れすぎないよう、表とその下の申込欄は幅を絞る。左端は見出しにそろえる */
+.price-wrap,
+#pricing .apply-band {
+  max-width: 680px;
+}
+
 .price-wrap {
   overflow-x: auto;
   background: var(--white);
@@ -1058,10 +1064,6 @@ html.is-modal-open {
 .price-table thead th:not(:first-child) {
   text-align: right;
   white-space: nowrap;
-}
-
-.th-sub {
-  display: none;
 }
 
 .price-table tbody th,
@@ -1124,6 +1126,16 @@ html.is-modal-open {
   display: block;
   font-size: 0.72rem;
   font-weight: 400;
+}
+
+/* 2講座セット：1講座の行と見分けられるよう淡い背景にする */
+.price-table__bundle {
+  background: #fff7fa;
+}
+
+.price-table__bundle .price__note {
+  color: var(--muted);
+  text-decoration: line-through;
 }
 
 .apply-band {
@@ -1334,6 +1346,63 @@ html.is-modal-open {
   margin-top: 4px;
 }
 
+/* まとめて申込：1講座の枠と見分けられるよう、点線の枠と淡い背景にする */
+.session--bundle {
+  background: linear-gradient(135deg, #fff7fa, var(--white) 60%);
+  outline: 2px dashed var(--umeda);
+  outline-offset: -2px;
+}
+
+.bundle-label {
+  padding: 0 10px;
+  background: var(--navy);
+  color: var(--yellow);
+  border-radius: 999px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  line-height: 1.7;
+}
+
+.session__when--bundle li {
+  padding-left: 10px;
+  border-left: 3px solid var(--umeda);
+}
+
+.session__course {
+  flex-basis: 100%;
+  font-weight: 700;
+}
+
+.bundle-price {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0 6px;
+  font-size: 0.9rem;
+  font-weight: 700;
+}
+
+.bundle-price s {
+  color: var(--muted);
+  font-weight: 400;
+}
+
+.bundle-price__arrow {
+  color: var(--muted);
+}
+
+.bundle-price strong {
+  color: var(--sun);
+  font-size: 1.3rem;
+  font-weight: 900;
+}
+
+.bundle-price__note {
+  color: var(--text-sub);
+  font-size: 0.8rem;
+  font-weight: 400;
+}
+
 .status {
   display: inline-flex;
   align-items: center;
@@ -1475,7 +1544,7 @@ html.is-modal-open {
   }
 }
 
-/* 料金表：狭い画面では講座名を1行目、2つの料金を2行目に並べる */
+/* 料金表：狭い画面では講座名を1行目、受講料を2行目に並べる */
 @media (max-width: 519px) {
   .price-table thead {
     position: absolute;
@@ -1487,7 +1556,6 @@ html.is-modal-open {
 
   .price-table tbody tr {
     display: grid;
-    grid-template-columns: 1fr 1fr;
     border-bottom: 1px solid var(--line);
   }
 
@@ -1496,7 +1564,6 @@ html.is-modal-open {
   }
 
   .price-table tbody th {
-    grid-column: 1 / -1;
     padding: 14px 14px 6px;
     border-bottom: 0;
   }
@@ -1506,10 +1573,6 @@ html.is-modal-open {
     padding: 8px 14px 14px;
     border-bottom: 0;
     text-align: left;
-  }
-
-  .price-table tbody td + td {
-    border-left: 1px dashed var(--line);
   }
 
   .price-table td::before {
@@ -1607,10 +1670,6 @@ html.is-modal-open {
     grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
     gap: 32px;
     margin-top: 22px;
-  }
-
-  .th-sub {
-    display: inline;
   }
 
   .price-table thead th {
