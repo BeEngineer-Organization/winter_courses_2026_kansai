@@ -673,6 +673,11 @@ a.btn-sub:visited {
   padding: 56px 0 72px;
 }
 
+/* 最後のセクション（お申し込み）は、すぐ下に斜めのラインとフッターが続くので下の余白を詰める */
+#schedule.section {
+  padding-bottom: 24px;
+}
+
 .section--tint {
   background: var(--tint);
 }
@@ -767,10 +772,14 @@ a.btn-sub:visited {
 .course__title {
   position: relative;
   padding-left: 16px;
-  font-size: clamp(1.35rem, 5.4vw, 1.85rem);
+  /* スマホでは講座名が「…作ろ／う！」のように途中で折り返さないよう、少し小さめにする */
+  font-size: clamp(1.1rem, 4.8vw, 1.85rem);
   font-weight: 900;
   line-height: 1.4;
   letter-spacing: 0.03em;
+  /* 講座名は語の途中で折り返さず、HTMLの <wbr> や空白の位置でだけ改行する */
+  word-break: keep-all;
+  overflow-wrap: anywhere;
 }
 
 .course__title::before {
@@ -971,9 +980,12 @@ html.is-modal-open {
   position: relative;
   flex: 1;
   padding-left: 14px;
-  font-size: 1.2rem;
+  font-size: clamp(1.05rem, 4.6vw, 1.2rem);
   font-weight: 900;
   line-height: 1.45;
+  /* カードの講座名と同じく、語の途中では折り返さない */
+  word-break: keep-all;
+  overflow-wrap: anywhere;
 }
 
 .course-modal__title:focus {
@@ -1406,14 +1418,56 @@ html.is-modal-open {
   line-height: 1.7;
 }
 
+/* まとめて申込の中の2講座：1講座ずつ小さなカードにし、講座名と日時の強弱をはっきり分ける */
+.session__when--bundle {
+  gap: 16px;
+}
+
 .session__when--bundle li {
-  padding-left: 10px;
-  border-left: 3px solid var(--umeda);
+  position: relative;
+  align-items: baseline;
+  gap: 2px 10px;
+  padding: 10px 12px 11px;
+  background: var(--white);
+  border: 1px solid #f6c9d9;
+  border-left: 4px solid var(--umeda);
+  border-radius: 6px;
+}
+
+/* 2つの講座の間に「＋」 */
+.session__when--bundle li + li::before {
+  content: "＋";
+  position: absolute;
+  left: 50%;
+  top: -8px;
+  display: grid;
+  place-items: center;
+  width: 22px;
+  height: 22px;
+  background: var(--umeda);
+  color: var(--navy);
+  border-radius: 50%;
+  font-size: 0.85rem;
+  font-weight: 900;
+  line-height: 1;
+  transform: translate(-50%, -50%);
 }
 
 .session__course {
   flex-basis: 100%;
-  font-weight: 700;
+  color: var(--navy);
+  font-size: 1rem;
+  font-weight: 900;
+  line-height: 1.5;
+  word-break: keep-all;
+  overflow-wrap: anywhere;
+}
+
+.session__when--bundle time,
+.session__when--bundle li > span {
+  color: var(--text-sub);
+  font-size: 0.85rem;
+  font-weight: 500;
 }
 
 .bundle-price {
@@ -1691,6 +1745,11 @@ html.is-modal-open {
     display: none;
   }
 
+  /* PCではヘッダーの「申し込む」ボタンがあるので、メニューの「申込」は出さない */
+  .nav__entry {
+    display: none !important;
+  }
+
   .header-cta {
     display: inline-flex;
     margin-left: 8px;
@@ -1826,7 +1885,13 @@ html.is-modal-open {
   /* まとめて申込：19日の講座を左、20日の講座を右に並べる */
   .session__when--bundle {
     grid-template-columns: 1fr 1fr;
-    column-gap: 24px;
+    column-gap: 28px;
+  }
+
+  /* 横並びのときは「＋」を2枚のカードの間（左端の中央）に置く */
+  .session__when--bundle li + li::before {
+    left: -14px;
+    top: 50%;
   }
 
   .hero {
@@ -1877,6 +1942,10 @@ html.is-modal-open {
 
   .section {
     padding: 72px 0 104px;
+  }
+
+  #schedule.section {
+    padding-bottom: 40px;
   }
 
   .course__title {

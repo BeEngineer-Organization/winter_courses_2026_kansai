@@ -153,25 +153,38 @@
 
   // スマートフォン下部の固定CTA
   // FVの申込ボタンを上へ通り過ぎてから出す（ページを開いた直後にFVの文章を隠さないため）。
-  // 料金・スケジュールの申込欄が見えている間は、同じボタンが二重にならないよう隠す。
+  // お申し込み欄（講座ごとの申込ボタン）が見えている間は、同じ行き先のボタンが二重にならないよう隠す。
   const heroActions = document.querySelector(".hero__actions");
-  const applyBands = [...document.querySelectorAll(".apply-band")];
+  const applyBands = [...document.querySelectorAll(".apply-band, #schedule-list")];
   if (sticky && heroActions && "IntersectionObserver" in window) {
-    let heroPassed = false;
     const bandsOnScreen = new Set();
+    const updateSticky = () => {
+      // 「通り過ぎたか」は位置で毎回判定する（勢いよくスクロールしたり、ページ内リンクで飛んだりしても取りこぼさない）
+      const heroPassed = heroActions.getBoundingClientRect().bottom < 0;
+      sticky.classList.toggle("is-visible", heroPassed && bandsOnScreen.size === 0);
+    };
     const observer = new IntersectionObserver((entries) => {
       entries.forEach((entry) => {
-        if (entry.target === heroActions) {
-          heroPassed = !entry.isIntersecting && entry.boundingClientRect.top < 0;
-        } else if (entry.isIntersecting) {
-          bandsOnScreen.add(entry.target);
-        } else {
-          bandsOnScreen.delete(entry.target);
-        }
+        if (entry.isIntersecting) bandsOnScreen.add(entry.target);
+        else bandsOnScreen.delete(entry.target);
       });
-      sticky.classList.toggle("is-visible", heroPassed && bandsOnScreen.size === 0);
+      updateSticky();
     });
-    [heroActions, ...applyBands].forEach((target) => observer.observe(target));
+    applyBands.forEach((target) => observer.observe(target));
+    let ticking = false;
+    window.addEventListener(
+      "scroll",
+      () => {
+        if (ticking) return;
+        ticking = true;
+        requestAnimationFrame(() => {
+          ticking = false;
+          updateSticky();
+        });
+      },
+      { passive: true }
+    );
+    updateSticky();
   } else if (sticky) {
     sticky.classList.add("is-visible");
   }
@@ -197,7 +210,8 @@
     const modalBody = modal.querySelector(".course-modal__body");
 
     const openCourse = (course) => {
-      modalTitle.textContent = course.querySelector(".course__title").textContent;
+      // カードの講座名を改行位置（<br> や <wbr>）ごと写す
+      modalTitle.innerHTML = course.querySelector(".course__title").innerHTML;
       modalBody.replaceChildren(
         ...[".tags", ".course__img", ".course__text"]
           .map((selector) => course.querySelector(selector))
