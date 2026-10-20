@@ -104,7 +104,7 @@ URLに `?theme=halloween` を付けて開いたときだけ出る演出です。
 
 | ファイル | 場所 | 状態 |
 |---|---|---|
-| `fv-hero.jpg`（1084×816） | FVのメイン写真 | 2025年冬LPの `firstview_2.jpg` を流用 |
+| `fv-hero.png`（1084×816） | FVのメイン写真 | 2025年冬LPの `firstview_2.jpg` をもとにPNGへ差し替え |
 | `fv-sub.jpg`（1134×898） | FVの小さい写真（PCのみ） | 2025年冬LPの `features_1.jpg` を流用 |
 | `course-typing.png`（683×456） | JavaScript でタイピングゲームを作ろう！ | 実際のゲーム画面 |
 | `course-python-3d.png`（1366×767） | Python で 3D ゲーム開発 | 実際のゲーム画面 |
