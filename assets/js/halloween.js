@@ -112,6 +112,164 @@
       setTimeout(resolve, 2500);
     });
 
+  /* ---------- タップしたときの小道具 ---------- */
+  const canPlay = () => root.classList.contains("js-motion");
+
+  // 画面上の位置に、ひとこと吹き出しを出す
+  const say = (text, x, y) => {
+    const bubble = document.createElement("span");
+    bubble.className = "hw-say";
+    bubble.setAttribute("aria-hidden", "true");
+    bubble.textContent = text;
+    bubble.style.cssText = `left:${x}px;top:${y}px`;
+    document.body.appendChild(bubble);
+    setTimeout(() => bubble.remove(), 1400);
+  };
+
+  // 包み紙のアメ
+  const CANDY_COLORS = ["#ff7a1a", "#8b4fd6", "#3fb04d", "#ff5fa2", "#ffd23f", "#18acf4"];
+  const candySvg = (color) => `
+    <svg viewBox="0 0 40 20" aria-hidden="true" focusable="false">
+      <path d="M10 10L1 3v14z M30 10l9-7v14z" fill="${color}" opacity=".75" />
+      <ellipse cx="20" cy="10" rx="11" ry="8" fill="${color}" />
+      <path d="M13 6c3 2 11 2 14 0" stroke="#fff" stroke-width="2" fill="none" opacity=".6" stroke-linecap="round" />
+    </svg>`;
+
+  // タップした位置から、お菓子がはじけ飛ぶ
+  const candyBurst = (x, y) => {
+    const box = document.createElement("div");
+    box.className = "hw-candies";
+    box.setAttribute("aria-hidden", "true");
+    document.body.appendChild(box);
+    let last = 0;
+    for (let i = 0; i < 12; i += 1) {
+      const candy = document.createElement("span");
+      candy.className = "hw-candy";
+      candy.innerHTML = candySvg(CANDY_COLORS[i % CANDY_COLORS.length]);
+      box.appendChild(candy);
+      const angle = -Math.PI / 2 + (Math.random() - 0.5) * Math.PI * 1.3;
+      const power = 90 + Math.random() * 110;
+      const dx = Math.cos(angle) * power;
+      const peak = Math.sin(angle) * power;
+      const spin = (Math.random() - 0.5) * 720;
+      const duration = 900 + Math.random() * 500;
+      last = Math.max(last, duration);
+      candy.animate(
+        [
+          { transform: `translate(${x}px, ${y}px) scale(.4) rotate(0deg)`, opacity: 1 },
+          { transform: `translate(${x + dx * 0.6}px, ${y + peak}px) scale(1) rotate(${spin * 0.5}deg)`, opacity: 1, offset: 0.4 },
+          { transform: `translate(${x + dx}px, ${y + peak + 160}px) scale(.9) rotate(${spin}deg)`, opacity: 0 },
+        ],
+        { duration, easing: "cubic-bezier(.2, .7, .4, 1)", fill: "forwards" }
+      );
+    }
+    setTimeout(() => box.remove(), last + 50);
+  };
+
+  const centerOf = (el) => {
+    const r = el.getBoundingClientRect();
+    return [r.left + r.width / 2, r.top + r.height / 2, r];
+  };
+
+  // FVの飾りをタップしたときの反応
+  const bindDecorations = () => {
+    // 写真の角のカボチャ：弾んでお菓子をばらまく
+    const peek = document.querySelector(".hw-peek");
+    if (peek && !peek.dataset.bound) {
+      peek.dataset.bound = "1";
+      peek.addEventListener("click", () => {
+        if (!canPlay()) return;
+        const [x, y] = centerOf(peek);
+        candyBurst(x, y);
+        peek.animate(
+          [
+            { transform: "scale(1) rotate(0deg)" },
+            { transform: "scale(1.25, .8) rotate(-8deg)", offset: 0.25 },
+            { transform: "scale(.9, 1.15) rotate(8deg)", offset: 0.55 },
+            { transform: "scale(1) rotate(0deg)" },
+          ],
+          { duration: 520, easing: "ease-out", composite: "add" }
+        );
+      });
+    }
+
+    // 巣のクモ：あわてて巣に逃げ込み、少ししてから戻ってくる
+    const hang = document.querySelector(".hw-hang");
+    if (hang && !hang.dataset.bound) {
+      hang.dataset.bound = "1";
+      let busy = false;
+      hang.addEventListener("click", () => {
+        if (!canPlay() || busy) return;
+        busy = true;
+        const thread = hang.querySelector(".hw-hang__thread");
+        const body = hang.querySelector("svg");
+        const [x, , r] = centerOf(body);
+        say("にげろ〜！", x, r.top - 8);
+        const up = thread.offsetHeight;
+        const timing = { duration: 3200, easing: "ease-in-out" };
+        thread.animate(
+          [
+            { transform: "scaleY(1)" },
+            { transform: "scaleY(.05)", offset: 0.12 },
+            { transform: "scaleY(.05)", offset: 0.7 },
+            { transform: "scaleY(1)" },
+          ],
+          timing
+        );
+        body.animate(
+          [
+            { transform: "translateY(0)" },
+            { transform: `translateY(${-up}px)`, offset: 0.12 },
+            { transform: `translateY(${-up}px) rotate(12deg)`, offset: 0.4 },
+            { transform: `translateY(${-up}px) rotate(-12deg)`, offset: 0.55 },
+            { transform: `translateY(${-up}px)`, offset: 0.7 },
+            { transform: "translateY(0)" },
+          ],
+          timing
+        ).onfinish = () => {
+          busy = false;
+        };
+      });
+    }
+
+    // FVを飛ぶコウモリ：びっくりして上へ逃げ、しばらくしてまた飛んでくる
+    // コウモリは文字の後ろを飛んでいるので、FVの何もない所をタップしたときに、その位置にいるコウモリを探す
+    // （リンクやボタンの上は対象外。申込ボタンの操作を邪魔しない）
+    const hero = document.querySelector(".hero");
+    if (hero && !hero.dataset.batBound) {
+      hero.dataset.batBound = "1";
+      hero.addEventListener("click", (e) => {
+        if (!canPlay() || e.target.closest("a, button, .hw-peek, .hw-hang")) return;
+        const hit = [...hero.querySelectorAll(".hw-deco__bat:not(.is-scared)")].find((bat) => {
+          const r = bat.getBoundingClientRect();
+          const pad = 14;
+          return e.clientX > r.left - pad && e.clientX < r.right + pad && e.clientY > r.top - pad && e.clientY < r.bottom + pad;
+        });
+        if (hit) scareBat(hit);
+      });
+    }
+    function scareBat(bat) {
+      const [x, , r] = centerOf(bat);
+      say("キィッ！", x, r.top - 6);
+      const from = getComputedStyle(bat).transform;
+      bat.classList.add("is-scared"); // 横切るアニメーションを止める
+      const base = from === "none" ? "" : from;
+      bat.animate(
+        [
+          { transform: `${base} scale(1)` },
+          { transform: `${base} translate(0, 6px) scale(1.3)`, offset: 0.15 },
+          { transform: `${base} translate(${(Math.random() - 0.5) * 240}px, -420px) scale(.6)` },
+        ],
+        { duration: 900, easing: "cubic-bezier(.5, 0, .9, .5)", fill: "forwards" }
+      ).onfinish = (e) => {
+        setTimeout(() => {
+          e.target.cancel();
+          bat.classList.remove("is-scared"); // 画面の外から、また横切り始める
+        }, 6000);
+      };
+    }
+  };
+
   /* ---------- 演出のあとに残す飾り ---------- */
   const decorate = () => {
     const hero = document.querySelector(".hero");
@@ -148,6 +306,7 @@
       peek.innerHTML = pumpkinSvg();
       media.appendChild(peek);
     }
+    bindDecorations();
   };
 
   /* ---------- LP内のちょっとした仕掛け（各1回だけ） ----------
@@ -179,8 +338,10 @@
       ],
       { duration: 3800, easing: "cubic-bezier(.3, 1.4, .5, 1)" }
     );
-    // タップすると、あわてて引っ込む
+    // タップすると、お菓子をばらまいて、あわてて引っ込む
     pop.addEventListener("click", () => {
+      const [x, y] = centerOf(pop);
+      candyBurst(x, y);
       anim.cancel();
       pop.animate([{ transform: on }, { transform: off }], { duration: 260, easing: "ease-in", fill: "forwards" }).onfinish = () => pop.remove();
     }, { once: true });
@@ -227,6 +388,9 @@
   };
 
   /* ---------- 時々ヘッダーの下から降りてくるクモ（タップで「バグ発見！」） ---------- */
+  const BUG_LINES = ["バグ発見！", "またバグ！", "デバッグ完了！"];
+  let bugsSquashed = 0;
+
   const dropSpider = () => {
     const header = document.querySelector(".site-header");
     const top = header ? header.getBoundingClientRect().bottom : 0;
@@ -289,7 +453,13 @@
         runs.forEach((a) => a.pause());
         const bubble = document.createElement("span");
         bubble.className = "hw-drop__bubble";
-        bubble.textContent = "バグ発見！";
+        bubble.textContent = BUG_LINES[Math.min(bugsSquashed, BUG_LINES.length - 1)];
+        bugsSquashed += 1;
+        // 最後の1匹をつぶしたら、お祝いにお菓子
+        if (bugsSquashed === BUG_LINES.length) {
+          const [x, y] = centerOf(spider);
+          candyBurst(x, y);
+        }
         spider.appendChild(bubble);
         thread.animate([{ opacity: 1 }, { opacity: 0 }], { duration: 300, fill: "forwards" });
         spider.querySelector("svg").animate(

@@ -471,6 +471,88 @@ html.hw-lock {
   }
 }
 
+/* ---------- タップしたときの反応 ---------- */
+
+/* タップできる飾り */
+.hw-peek,
+.hw-hang svg {
+  cursor: pointer;
+  pointer-events: auto;
+}
+
+.hw-deco__bat.is-scared {
+  animation: none;
+}
+
+/* ひとこと吹き出し */
+.hw-say {
+  position: fixed;
+  z-index: 70;
+  padding: 4px 10px;
+  background: #fff;
+  color: #00134d;
+  border: 2px solid #00134d;
+  border-radius: 999px;
+  box-shadow: 3px 3px 0 #00134d;
+  font-size: 0.82rem;
+  font-weight: 900;
+  white-space: nowrap;
+  pointer-events: none;
+  transform: translate(-50%, -100%);
+  animation: hw-say 1.4s ease-out forwards;
+}
+
+@keyframes hw-say {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, -80%) scale(0.6);
+  }
+
+  18% {
+    opacity: 1;
+    transform: translate(-50%, -100%) scale(1.08);
+  }
+
+  28% {
+    transform: translate(-50%, -100%) scale(1);
+  }
+
+  78% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -130%);
+  }
+}
+
+/* はじけ飛ぶお菓子 */
+.hw-candies {
+  position: fixed;
+  inset: 0;
+  z-index: 70;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.hw-candy {
+  position: absolute;
+  left: -14px;
+  top: -7px;
+  width: 28px;
+}
+
+.hw-candy svg {
+  display: block;
+  width: 100%;
+  overflow: visible;
+}
+
+.hw-hang__thread {
+  transform-origin: 50% 0;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .hw-deco__bat,
   .hw-deco__bat svg,
