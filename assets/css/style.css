@@ -609,10 +609,22 @@ a.btn-sub:visited {
   color: var(--white);
   font-size: 0.85rem;
   font-weight: 700;
+  /* 行の高さを文字と同じにして、丸の上下中央に文字を置く（1.3 のままだと「土」が2px上にずれる） */
+  line-height: 1;
+}
+
+/* 文字の位置の微調整。レイアウトの余白だと1px単位でしか動かないので、transform で0.5px単位に動かす */
+.wk__ch {
+  display: block;
+  transform: translateY(-0.75px); /* 「土」：少しだけ上に */
 }
 
 .wk--sun {
   background: var(--sun);
+}
+
+.wk--sun .wk__ch {
+  transform: translateY(-1px); /* 「日」：字の重心が下にあるぶん、見た目の中央にそろえる */
 }
 
 .hero__actions {
@@ -1340,10 +1352,19 @@ html.is-modal-open {
   border-radius: 50%;
   background: var(--sat);
   font-size: 0.8rem;
+  /* FVの曜日の丸と同じく、行の高さを文字と同じにして中央に置き、.wk__ch で微調整する */
+  line-height: 1;
+  /* ページ全体の字間（0.04em）が文字の右側にだけ付き、文字が左に寄って見えるので打ち消す */
+  letter-spacing: 0;
 }
 
 .day--sun .day__wk {
   background: var(--sun);
+}
+
+/* 日程の曜日の位置の微調整（見た目で中央に見えるよう、少しだけ右へ） */
+.day__wk .wk__ch {
+  transform: translateX(0.5px);
 }
 
 .session__span {
